@@ -10,6 +10,7 @@ RXFREQ=445000000
 # Receiver Gain Setting
 # Set to 0 to use AGC, otherwise use a gain value between 0 and 49
 GAIN=0
+#GAIN=30
 
 # Sample Rate, in Hz
 # Suggest leaving this at 2.4 MHz.

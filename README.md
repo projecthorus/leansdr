@@ -1,5 +1,8 @@
 leansdr: Lightweight, portable software-defined radio.
 
+Project Horus Fork Additions:
+* Startup scripts with horus-specific parameters.
+
 Copyright (C) 2016 <pabr@pabr.org>
 
 > This program is free software: you can redistribute it and/or modify
@@ -30,29 +33,31 @@ than sensitivity.
 See http://www.pabr.org/radio/leandvb for details and use cases.
 
 ## Quick start guide
+Install required dependencies (tested on Ubuntu 20.04):
+```
+$ sudo apt-get install build-essential rtl-sdr git libfftw3-dev libiio-dev libx11-dev mplayer
 
 ```
-git clone http://github.com/pabr/leansdr.git
+
+Build the decoder:
+```
+git clone http://github.com/projecthorus/leansdr.git
 cd leansdr/src/apps
 make
 ```
 
-### Receiving DATV transmissions from the ISS with a RTL-SDR dongle:
+## Decoding using a RTLSDR
+The `start_horus.sh` script in src/apps/ provides most of the settings required to decode DVB-S from a horus launch.
 
-```
-rtl_sdr  -f $DOWNCONVERTED_FREQ  -s 2400000  capture.iq
-./leandvb  -f 2400e3  --sr 2000e3  --cr 1/2   < capture.iq  > capture.ts
-mplayer capture.ts
-```
+You will likely need to edit this file to adjust receiver gain to optimize reception, but try with AGC enabled first (the default).
+If you need to adjust the receiver gain, edit `start_horus.sh` and change the `GAIN=0` line to some other value (between 0-49 for RTLSDRs)
 
-### Troubleshooting
-
+Run the script with (assuming you are in leansdr/src/apps):
 ```
-./leandvb  --gui  -v  -d  -f 2400e3  --sr 2000e3  --cr 1/2  < capture.iq  > capture.ts
+$ ./start_horus.sh
 ```
 
-### Live receiver with auto-detection of symbol rate and code rate:
+The leanDVB windows will appear, showing constellation diagrams and spectrum information. After mplayer has cached enough video, a video window will appear (this may take up to 30 seconds depending on signal quality).
 
-```
-rtl_sdr  -f $DOWNCONVERTED_FREQ  -s 2400000  -  |  ./leansdrscan  -v  ./leandvb --gui  -f 2400e3  --sr 2000e3,1000e3,500e3,250e3  --cr 1/2,2/3,3/4,5/6,7/8  -  |  mplayer  -cache 128  -
-```
+
+
