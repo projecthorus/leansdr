@@ -42,4 +42,4 @@ fi
 
 # Start the decoder
 
-rtl_sdr -f $RXFREQ $GAIN_SETTING -s $SAMPLERATE - | ./leandvb --gui --inpipe $SAMPLERATE --sr $SYMBRATE --cr $FEC | tee $TSOUT | mplayer -cache 32 -
+rtl_sdr -f $RXFREQ $GAIN_SETTING -s $SAMPLERATE - | ./leandvb --gui -f $SAMPLERATE --sr $SYMBRATE --cr $FEC | tee $TSOUT | mplayer -cache 32 -
