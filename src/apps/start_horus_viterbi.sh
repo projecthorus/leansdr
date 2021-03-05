@@ -26,10 +26,7 @@ FEC=1/2
 
 
 # Save captured Transport Stream to this file.
-# Note that this will be overwritten each time this script is run.
-TSOUT=dvb_capture.ts
-
-
+TSOUT=$(date -u +%Y-%m-%dT%H%M%SZ_dvbs.ts)
 
 # Configure the gain setting
 GAIN_SETTING=""
